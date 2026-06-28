@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — Elorine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <div class="announcement">✦ Free shipping above ₹999 ✦</div>
+
+  <header id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="header__logo">Elor<span>i</span>ne</a>
+      <nav class="header__nav">
+        <a href="index.html">Home</a><a href="shop.html">Shop</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="header__actions">
+        <button id="cart-btn"><i class="ti ti-shopping-bag"></i>
+          <span class="badge cart-count" style="display:none;">0</span></button>
+        <a href="wishlist.html" style="position:relative;">
+          <button><i class="ti ti-heart"></i>
+            <span class="badge wishlist-count" style="display:none;background:#1A1A1A;">0</span></button>
+        </a>
+        <button id="hamburger" class="header__hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="index.html">Home</a><a href="shop.html">Shop</a>
+    <a href="contact.html">Contact</a><a href="wishlist.html">Wishlist</a>
+  </div>
+
+  <main style="margin-top:var(--header-h);">
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <div style="padding:20px 0;font-size:13px;color:var(--mid-gray);">
+        <a href="index.html" style="color:var(--mid-gray);">Home</a> /
+        <a href="shop.html" style="color:var(--mid-gray);">Shop</a> /
+        <span id="breadcrumb-name">Product</span>
+      </div>
+
+      <div class="product-detail" id="product-detail">
+        <div style="text-align:center;padding:80px 0;color:var(--mid-gray);">Loading…</div>
+      </div>
+
+      <!-- Related Products -->
+      <section class="section">
+        <div class="products__header">
+          <h3 style="font-family:var(--font-display);">You may also like</h3>
+          <a href="shop.html" class="btn btn--outline">View All</a>
+        </div>
+        <div class="products__grid" id="related-grid"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer style="background:var(--charcoal);color:rgba(255,255,255,.6);text-align:center;padding:32px;">
+    <p style="font-size:13px;">© 2025 Elorine. <a href="index.html" style="color:var(--gold);">Back to Home</a></p>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get("id");
+    const p = getProductById(id);
+
+    if (!p) {
+      document.getElementById("product-detail").innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:80px 0;">
+          <p>Product not found.</p>
+          <a href="shop.html" class="btn btn--primary" style="margin-top:16px;">Back to Shop</a>
+        </div>`;
+    } else {
+      document.title = `${p.name} — Elorine`;
+      document.getElementById("breadcrumb-name").textContent = p.name;
+
+      let activeImg = 0;
+
+      function renderGallery() {
+        const thumbs = p.images.map((img, i) => `
+          <div class="product-gallery__thumb ${i === activeImg ? 'active' : ''}"
+            onclick="setImg(${i})" id="thumb-${i}">
+            <img src="${img}" alt="Thumb ${i+1}"
+              onerror="this.parentElement.style.background='var(--light-gray)';this.remove()" />
+          </div>`).join("");
+
+        return `
+          <div class="product-gallery">
+            <div class="product-gallery__main" id="main-img">
+              <img id="main-img-el" src="${p.images[0]}" alt="${p.name}"
+                onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'ti ti-photo\'></i><span>${p.name}</span></div>'" />
+            </div>
+            <div class="product-gallery__thumbs">${thumbs}</div>
+          </div>`;
+      }
+
+      const wishActive = Wishlist.has(p.id);
+      const sale = p.originalPrice
+        ? `<span style="text-decoration:line-through;color:#aaa;font-size:1rem;margin-right:8px;">${formatPrice(p.originalPrice)}</span>`
+        : "";
+
+      document.getElementById("product-detail").innerHTML = `
+        ${renderGallery()}
+        <div class="product-info">
+          <p class="label">${p.category}</p>
+          <h1 class="product-info__name">${p.name}</h1>
+          <div class="product-info__price">${sale}${formatPrice(p.price)}</div>
+          <p class="product-info__desc">${p.description}</p>
+
+          <div style="margin-bottom:16px;">
+            <span style="font-size:13px;color:var(--mid-gray);">Material: </span>
+            <span style="font-size:13px;">${p.material}</span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+            <span style="font-size:13px;color:var(--mid-gray);">Quantity</span>
+            <div class="qty-selector">
+              <button onclick="changeQty(-1)">−</button>
+              <input type="number" id="qty-input" value="1" min="1" max="10" />
+              <button onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+
+          <div class="product-info__actions">
+            <button class="btn btn--primary" onclick="initiatePayment(${p.price}, ${JSON.stringify(p.name)})">
+              <i class="ti ti-credit-card"></i> Buy Now
+            </button>
+            <button class="btn btn--primary" onclick="addToCart()">
+              <i class="ti ti-shopping-bag"></i> Add to Cart
+            </button>
+            <button class="btn btn--outline" id="wishlist-toggle"
+              onclick="toggleWish()"
+              style="${wishActive ? 'color:var(--gold);border-color:var(--gold)' : ''}">
+              <i class="ti ${wishActive ? 'ti-heart-filled' : 'ti-heart'}"></i>
+              ${wishActive ? 'Saved to Wishlist' : 'Add to Wishlist'}
+            </button>
+          </div>
+
+          <div class="product-meta" style="margin-top:28px;">
+            <details open>
+              <summary>Care Instructions <span>+</span></summary>
+              <p>${p.careInstructions}</p>
+            </details>
+            <details>
+              <summary>Shipping &amp; Returns <span>+</span></summary>
+              <p>Free shipping on orders above ₹999. Standard delivery in 4–7 business days. Easy 15-day returns on unworn items.</p>
+            </details>
+            <details>
+              <summary>About Elorine Jewellery <span>+</span></summary>
+              <p>All our pieces are handcrafted by skilled artisans and quality-checked before dispatch. We use ethically sourced materials and sustainable packaging.</p>
+            </details>
+          </div>
+        </div>`;
+
+      // Related products
+      const related = PRODUCTS.filter(x => x.category === p.category && x.id !== p.id).slice(0, 4);
+      document.getElementById("related-grid").innerHTML = related.map(renderProductCard).join("");
+      Wishlist.updateButtons();
+    }
+
+    function setImg(i) {
+      activeImg = i;
+      const mainEl = document.getElementById("main-img-el");
+      if (mainEl) mainEl.src = p.images[i];
+      document.querySelectorAll(".product-gallery__thumb").forEach((t, idx) => {
+        t.classList.toggle("active", idx === i);
+      });
+    }
+
+    function changeQty(delta) {
+      const input = document.getElementById("qty-input");
+      const val = Math.max(1, Math.min(10, parseInt(input.value) + delta));
+      input.value = val;
+    }
+
+    function addToCart() {
+      const qty = parseInt(document.getElementById("qty-input")?.value || 1);
+      Cart.add(p.id, qty);
+    }
+
+    function toggleWish() {
+      Wishlist.toggle(p.id);
+      const btn = document.getElementById("wishlist-toggle");
+      const isNow = Wishlist.has(p.id);
+      btn.innerHTML = `<i class="ti ${isNow ? 'ti-heart-filled' : 'ti-heart'}"></i> ${isNow ? 'Saved to Wishlist' : 'Add to Wishlist'}`;
+      btn.style.cssText = isNow ? 'color:var(--gold);border-color:var(--gold)' : '';
+    }
+  </script>
+</body>
+</html>

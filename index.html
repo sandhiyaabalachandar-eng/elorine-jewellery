@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- EDIT: Change the page title below -->
+  <title>Elorine — Handcrafted Jewellery</title>
+  <meta name="description" content="Elorine — Handcrafted jewellery for every story." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <!-- ===================== ANNOUNCEMENT BAR ===================== -->
+  <!-- EDIT: Change the announcement text here -->
+  <div class="announcement">
+    ✦ Free shipping on all orders above ₹999 &nbsp;|&nbsp; Use code ELORINE10 for 10% off ✦
+  </div>
+
+  <!-- ===================== HEADER ===================== -->
+  <header id="header">
+    <div class="container header__inner">
+      <!-- EDIT: Change brand name here (also change <span> character for gold accent) -->
+      <a href="index.html" class="header__logo">Elor<span>i</span>ne</a>
+
+      <nav class="header__nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="header__actions">
+        <button id="cart-btn" title="Cart">
+          <i class="ti ti-shopping-bag"></i>
+          <span class="badge cart-count" style="display:none;">0</span>
+        </button>
+        <a href="wishlist.html" style="position:relative;">
+          <button title="Wishlist">
+            <i class="ti ti-heart"></i>
+            <span class="badge wishlist-count" style="display:none;background:#1A1A1A;">0</span>
+          </button>
+        </a>
+        <button id="hamburger" class="header__hamburger" title="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="contact.html">Contact</a>
+    <a href="wishlist.html">Wishlist</a>
+  </div>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero__bg">
+      <!-- EDIT: Replace hero-banner.jpg in images/hero/ with your own image -->
+      <img src="images/hero/hero-banner.jpg" alt="Hero banner"
+        onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'background:#2a2320;color:rgba(255,255,255,.4)\'><i class=\'ti ti-photo\' style=\'font-size:48px;opacity:.3;\'></i><p style=\'font-size:13px;\'>Add hero-banner.jpg to images/hero/</p></div>'" />
+    </div>
+    <div class="container">
+      <div class="hero__content">
+        <!-- EDIT: Change hero eyebrow, title, and subtitle text below -->
+        <p class="label hero__eyebrow">HANDPICKED STYLES YOU'LL LOVE </p>
+        <h1 class="hero__title">ELORINE<br>JEWELLERY</h1>
+        <p class="hero__sub">Discover our curated collection of artificial jewellery.</p>
+        <div class="hero__actions">
+          <a href="shop.html" class="btn btn--ghost">Explore Collection</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CATEGORIES ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:40px;">
+        <!-- EDIT: Change section heading and subtext -->
+        <p class="label">Browse by Category</p>
+        <div class="divider"></div>
+        <h2>The Collection</h2>
+      </div>
+      <div class="categories__grid" id="categories-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURED PRODUCTS ===================== -->
+  <section class="section" style="background:var(--white);">
+    <div class="container">
+      <div class="products__header">
+        <div>
+          <!-- EDIT: Change featured section heading -->
+          <p class="label">Hand-picked for you</p>
+          <h2>Featured Pieces</h2>
+        </div>
+        <a href="shop.html" class="btn btn--outline">View All</a>
+      </div>
+      <div class="products__grid" id="featured-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BRAND BANNER ===================== -->
+  <section style="background:var(--charcoal);color:var(--white);padding:72px 0;">
+    <div class="container text-center">
+      <h2>@elorine.jewellery</h2>
+    </div>
+  </section>
+
+  <!-- ===================== INSTAGRAM / LOOKBOOK ===================== -->
+  <section class="section--sm">
+    <div class="container text-center" style="margin-bottom:24px;">
+      <!-- EDIT: Change lookbook heading and handle -->
+      <p class="label">Lookbook</p>
+      <p style="color:var(--mid-gray);font-size:14px;margin-top:8px;">Follow us for daily inspiration</p>
+    </div>
+    <!-- EDIT: Replace insta1–4.jpg in images/instagram/ with your photos -->
+    <div class="insta-grid">
+      <div class="insta-item">
+        <img src="images/instagram/insta1.jpg" alt="Lookbook 1"
+          onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'ti ti-camera\'></i><span>insta1.jpg</span></div>'" />
+        <div class="insta-item__overlay"><i class="ti ti-brand-instagram"></i></div>
+      </div>
+      <div class="insta-item">
+        <img src="images/instagram/insta2.jpg" alt="Lookbook 2"
+          onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'ti ti-camera\'></i><span>insta2.jpg</span></div>'" />
+        <div class="insta-item__overlay"><i class="ti ti-brand-instagram"></i></div>
+      </div>
+      <div class="insta-item">
+        <img src="images/instagram/insta3.jpg" alt="Lookbook 3"
+          onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'ti ti-camera\'></i><span>insta3.jpg</span></div>'" />
+        <div class="insta-item__overlay"><i class="ti ti-brand-instagram"></i></div>
+      </div>
+      <div class="insta-item">
+        <img src="images/instagram/insta4.jpg" alt="Lookbook 4"
+          onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'ti ti-camera\'></i><span>insta4.jpg</span></div>'" />
+        <div class="insta-item__overlay"><i class="ti ti-brand-instagram"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NEWSLETTER ===================== -->
+  <section class="newsletter">
+    <p style="text-align:center;margin:0;">join us on instagram and stay updated!</p>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <!-- EDIT: Change footer brand name, description, and social links -->
+          <div class="footer__logo">Elorine</div>
+          <p class="footer__desc">minimal and affordable jewellery for everyday wear and special occasions</p>
+          <div class="footer__social">
+            <a href="https://www.instagram.com/elorine.jewellery/" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html?cat=necklaces">Necklaces</a></li>
+            <li><a href="shop.html?cat=earrings">Earrings</a></li>
+            <li><a href="shop.html?cat=rings">Rings</a></li>
+            <li><a href="shop.html?cat=bracelets">Bracelets</a></li>
+            <li><a href="shop.html?cat=others">Others</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Contact Us</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/elorine.jewellery/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <!-- EDIT: Change copyright year and brand name -->
+        <span>© 2025 Elorine.</span>
+        <span>Curated with care in India</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Render categories
+    document.getElementById("categories-grid").innerHTML =
+      CATEGORIES.map(c => `
+        <a href="shop.html?cat=${c.id}" class="cat-card">
+          <div class="cat-card__img">
+            <img src="${c.image}" alt="${c.label}"
+              onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><i class=\'ti ti-photo\'></i><span>${c.label}</span></div>'" />
+          </div>
+          <div class="cat-card__overlay"></div>
+          <div class="cat-card__label">${c.label}</div>
+        </a>`).join("");
+
+    // Render featured products
+    document.getElementById("featured-grid").innerHTML =
+      getFeatured().slice(0, 8).map(renderProductCard).join("");
+
+    function handleNewsletter() {
+      const email = document.getElementById("nl-email").value.trim();
+      if (!email.includes("@")) { alert("Please enter a valid email."); return; }
+      Toast.show("Thanks for subscribing!", "ti-mail");
+      document.getElementById("nl-email").value = "";
+    }
+  </script>
+</body>
+</html>

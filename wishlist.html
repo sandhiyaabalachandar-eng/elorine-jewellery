@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wishlist — Elorine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="announcement">✦ Free shipping above ₹999 ✦</div>
+
+  <header id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="header__logo">Elor<span>i</span>ne</a>
+      <nav class="header__nav">
+        <a href="index.html">Home</a><a href="shop.html">Shop</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="header__actions">
+        <button id="cart-btn"><i class="ti ti-shopping-bag"></i>
+          <span class="badge cart-count" style="display:none;">0</span></button>
+        <a href="wishlist.html" style="position:relative;">
+          <button><i class="ti ti-heart"></i>
+            <span class="badge wishlist-count" style="display:none;background:#1A1A1A;">0</span></button>
+        </a>
+        <button id="hamburger" class="header__hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="index.html">Home</a><a href="shop.html">Shop</a>
+    <a href="contact.html">Contact</a><a href="wishlist.html">Wishlist</a>
+  </div>
+
+  <div class="page-hero">
+    <p class="label" style="color:var(--gold-light);">Saved items</p>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-top:8px;">Your Wishlist</h1>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div id="wishlist-container"></div>
+    </div>
+  </section>
+
+  <footer style="background:var(--charcoal);color:rgba(255,255,255,.6);text-align:center;padding:32px;">
+    <p style="font-size:13px;">© 2025 Elorine. <a href="index.html" style="color:var(--gold);">Back to Home</a></p>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function renderWishlist() {
+      const items = Wishlist.getItems();
+      const container = document.getElementById("wishlist-container");
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="wishlist-empty">
+            <i class="ti ti-heart"></i>
+            <p style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px;">Nothing saved yet</p>
+            <p style="font-size:14px;margin-bottom:24px;">Browse the collection and tap the heart on anything you love.</p>
+            <a href="shop.html" class="btn btn--primary">Browse Collection</a>
+          </div>`;
+        return;
+      }
+      container.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;">
+          <p style="color:var(--mid-gray);font-size:14px;">${items.length} saved item${items.length !== 1 ? "s" : ""}</p>
+        </div>
+        <div class="wishlist-grid">${items.map(renderProductCard).join("")}</div>`;
+      Wishlist.updateButtons();
+    }
+
+    document.addEventListener("DOMContentLoaded", renderWishlist);
+  </script>
+</body>
+</html>

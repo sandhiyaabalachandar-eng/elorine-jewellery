@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Elorine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+  <div class="announcement">✦ Free shipping above ₹999 &nbsp;|&nbsp; New arrivals every week ✦</div>
+
+  <header id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="header__logo">Elor<span>i</span>ne</a>
+      <nav class="header__nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="header__actions">
+        <button id="cart-btn"><i class="ti ti-shopping-bag"></i>
+          <span class="badge cart-count" style="display:none;">0</span></button>
+        <a href="wishlist.html" style="position:relative;">
+          <button><i class="ti ti-heart"></i>
+            <span class="badge wishlist-count" style="display:none;background:#1A1A1A;">0</span></button>
+        </a>
+        <button id="hamburger" class="header__hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="index.html">Home</a><a href="shop.html">Shop</a>
+    <a href="contact.html">Contact</a><a href="wishlist.html">Wishlist</a>
+  </div>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <!-- EDIT: Change shop page heading and subtitle -->
+    <p class="label" style="color:var(--gold-light);">Browse All</p>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem);margin-top:8px;">The Collection</h1>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <!-- Sort + Filter bar -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+        <div class="filters" id="filter-bar">
+          <button class="filter-btn active" data-cat="all">All</button>
+          <button class="filter-btn" data-cat="necklaces">Necklaces</button>
+          <button class="filter-btn" data-cat="earrings">Earrings</button>
+          <button class="filter-btn" data-cat="rings">Rings</button>
+          <button class="filter-btn" data-cat="bracelets">Bracelets</button>
+          <button class="filter-btn" data-cat="others">Others</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label style="font-size:12px;color:var(--mid-gray);letter-spacing:.1em;text-transform:uppercase;">Sort</label>
+          <select id="sort-select" style="padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:13px;background:var(--white);">
+            <option value="default">Featured</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <span id="result-count" style="font-size:13px;color:var(--mid-gray);"></span>
+      </div>
+
+      <div class="products__grid" id="shop-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (condensed) -->
+  <footer style="background:var(--charcoal);color:rgba(255,255,255,.6);text-align:center;padding:32px;">
+    <p style="font-size:13px;">© 2025 Elorine. <a href="index.html" style="color:var(--gold);">Back to Home</a></p>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let activeCat = "all";
+    let activeSort = "default";
+
+    // Pre-select category from URL param
+    const urlCat = new URLSearchParams(location.search).get("cat");
+    if (urlCat) activeCat = urlCat;
+
+    function renderShop() {
+      let list = getProductsByCategory(activeCat);
+      if (activeSort === "price-asc")  list = [...list].sort((a,b) => a.price - b.price);
+      if (activeSort === "price-desc") list = [...list].sort((a,b) => b.price - a.price);
+      if (activeSort === "name")       list = [...list].sort((a,b) => a.name.localeCompare(b.name));
+
+      document.getElementById("shop-grid").innerHTML = list.map(renderProductCard).join("");
+      document.getElementById("result-count").textContent = `${list.length} product${list.length !== 1 ? "s" : ""}`;
+      Wishlist.updateButtons();
+    }
+
+    // Filter buttons
+    document.getElementById("filter-bar").addEventListener("click", e => {
+      const btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCat = btn.dataset.cat;
+      renderShop();
+    });
+
+    // Set active filter from URL
+    if (urlCat) {
+      document.querySelectorAll(".filter-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.cat === urlCat);
+      });
+    }
+
+    document.getElementById("sort-select").addEventListener("change", e => {
+      activeSort = e.target.value;
+      renderShop();
+    });
+
+    renderShop();
+  </script>
+</body>
+</html>
