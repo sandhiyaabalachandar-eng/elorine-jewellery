@@ -111,7 +111,7 @@ const Cart = (() => {
         key: "rzp_test_T03LdxQe3E43Uo",
         amount: total() * 100,
         currency: "INR",
-        name: "Elorine Jewellery",
+        name: "swethaa B",
         description: "Order from Elorine",
         handler: function (response) {
           items = [];
